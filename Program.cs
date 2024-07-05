@@ -19,13 +19,16 @@ class Program
             Console.WriteLine("4: Remove a recipe by entering the recipe ID.");
             Console.WriteLine("5: Search a recipe by name or category.");
             Console.WriteLine();
+            Console.Write("Type the option number here: ");
             var option = Console.ReadLine();
+            Console.Write($"Selected Option: {option}\n");
             Console.WriteLine();
 
             switch (option)
             {
                 case "1":
                     var recipes = recipeService.GetAllRecipes();
+                    Console.WriteLine(">>>Available Recipes<<<");
                     foreach (var recipe in recipes)
                     {
                         Console.WriteLine($"{recipe.Id}: {recipe.Name}");
@@ -41,7 +44,7 @@ class Program
                     {
 
                         Console.WriteLine();
-                        Console.WriteLine(">>>Recipe ID and name<<<");
+                        Console.WriteLine(">>>Recipe ID and Name<<<");
                         Console.WriteLine($"{recipeById.Id}: {recipeById.Name}");
                         Console.WriteLine();
                         Console.WriteLine(">>>Category<<<");
@@ -62,10 +65,10 @@ class Program
                             Console.WriteLine($"- {instruction}");
                         }
                         Console.WriteLine();
-                        Console.WriteLine(">>>Nutrition information<<<");
-                        Console.WriteLine($"- Is gluten? {recipeById.IsGlutenFree}");
-                        Console.WriteLine($"- Is dairy? {recipeById.IsDairyFree}");
-                        Console.WriteLine($"- Is vegan? {recipeById.IsVegan}");
+                        Console.WriteLine(">>>Nutrition Information<<<");
+                        Console.WriteLine($"- Is gluten free? {recipeById.IsGlutenFree}");
+                        Console.WriteLine($"- Is dairy free? {recipeById.IsDairyFree}");
+                        Console.WriteLine($"- Is vegan free? {recipeById.IsVegan}");
                     }
                     else
                     {

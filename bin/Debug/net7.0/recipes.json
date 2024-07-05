@@ -20,10 +20,3 @@
     "IsVegan": true
   }
 ]
-
-
-
-
- //public bool? IsGlutenFree { get; set; }
- //       public bool? IsDairyFree { get; set; }
- //       public bool? IsVegan {  get; set; }
