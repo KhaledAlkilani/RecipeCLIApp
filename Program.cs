@@ -1,8 +1,4 @@
-﻿using RecipeCLIApp.Model;
-using RecipeCLIApp.Service;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using RecipeCLIApp.Service;
 
 class Program
 {

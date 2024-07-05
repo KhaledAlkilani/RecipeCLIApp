@@ -10,6 +10,7 @@ C:\Users\mc120\source\repos\RecipeCLIApp\RecipeCLIApp\obj\Debug\net7.0\RecipeCLI
 C:\Users\mc120\source\repos\RecipeCLIApp\RecipeCLIApp\obj\Debug\net7.0\RecipeCLIApp.AssemblyInfoInputs.cache
 C:\Users\mc120\source\repos\RecipeCLIApp\RecipeCLIApp\obj\Debug\net7.0\RecipeCLIApp.AssemblyInfo.cs
 C:\Users\mc120\source\repos\RecipeCLIApp\RecipeCLIApp\obj\Debug\net7.0\RecipeCLIApp.csproj.CoreCompileInputs.cache
+C:\Users\mc120\source\repos\RecipeCLIApp\RecipeCLIApp\obj\Debug\net7.0\RecipeCLIApp.sourcelink.json
 C:\Users\mc120\source\repos\RecipeCLIApp\RecipeCLIApp\obj\Debug\net7.0\RecipeCLIApp.csproj.CopyComplete
 C:\Users\mc120\source\repos\RecipeCLIApp\RecipeCLIApp\obj\Debug\net7.0\RecipeCLIApp.dll
 C:\Users\mc120\source\repos\RecipeCLIApp\RecipeCLIApp\obj\Debug\net7.0\refint\RecipeCLIApp.dll
