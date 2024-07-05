@@ -1,0 +1,29 @@
+[
+  {
+    "Id": 1,
+    "Name": "Sugar Water",
+    "Ingredients": [ "Water", "Sugar" ],
+    "Instructions": [ "Mix", "Boil" ],
+    "Category": "Hot drink",
+    "IsGlutenFree": false,
+    "IsDairyFree": true,
+    "IsVegan":  true
+  },
+  {
+    "Id": 2,
+    "Name": "Lemonade",
+    "Ingredients": [ "Water", "Lemon", "Sugar", "Ice" ],
+    "Instructions": [ "Mix ingredients", "Chill", "Serve" ],
+    "Category": "Cold drink",
+    "IsGlutenFree": false,
+    "IsDairyFree": true,
+    "IsVegan": true
+  }
+]
+
+
+
+
+ //public bool? IsGlutenFree { get; set; }
+ //       public bool? IsDairyFree { get; set; }
+ //       public bool? IsVegan {  get; set; }

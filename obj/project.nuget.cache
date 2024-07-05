@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "mKZIX80U+BcoGq0x4HVp2zy5nQDO2mi/M0r52XLMnMO6DG6kyozn5pMAixacLJA7AtXcC2i5m3omaQLx07zkLg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp\\RecipeCLIApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mc120\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
