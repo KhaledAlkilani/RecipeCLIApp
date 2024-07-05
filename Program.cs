@@ -2,7 +2,7 @@
 
 class Program
 {
-    static async Task Main(string[] args)
+    static void Main(string[] args)
     {
 
         Console.WriteLine("Welcome to Recipe CLI App!");
@@ -88,7 +88,7 @@ class Program
             {
                 Console.WriteLine("Byebye");
                 Console.WriteLine("The app will close in 3 seconds");
-                await Task.Delay(3000);
+                Thread.Sleep(3000);
                 return;
             }
 

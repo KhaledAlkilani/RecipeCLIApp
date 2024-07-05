@@ -1,9 +1,6 @@
 ﻿using RecipeCLIApp.Interface;
 using RecipeCLIApp.Model;
-using System.Text.Json;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.IO;
 
 namespace RecipeCLIApp.Service
 {
@@ -14,8 +11,6 @@ namespace RecipeCLIApp.Service
 
         public RecipeService()
         {
-
-            //_recipes = RecipeData.GetRecipes();
             _recipes = LoadRecipesFromJson("recipes.json");
         }
 
