@@ -1,22 +1,42 @@
 [
   {
-    "Id": 1,
-    "Name": "Sugar Water",
-    "Ingredients": [ "Water", "Sugar" ],
-    "Instructions": [ "Mix", "Boil" ],
-    "Category": "Hot drink",
-    "IsGlutenFree": false,
-    "IsDairyFree": true,
-    "IsVegan":  true
+    "Id": 3,
+    "Name": "Rice Porridge",
+    "Category": "Breakfast",
+    "Ingredients": [
+      "Rice porridge",
+      "Milk",
+      "Cinimon",
+      "Honey"
+    ],
+    "Instructions": [
+      "Mix together",
+      "Boil",
+      "Put cinimon",
+      "Eat"
+    ],
+    "IsGlutenFree": null,
+    "IsDairyFree": null,
+    "IsVegan": null
   },
   {
-    "Id": 2,
-    "Name": "Lemonade",
-    "Ingredients": [ "Water", "Lemon", "Sugar", "Ice" ],
-    "Instructions": [ "Mix ingredients", "Chill", "Serve" ],
-    "Category": "Cold drink",
-    "IsGlutenFree": false,
-    "IsDairyFree": true,
-    "IsVegan": true
+    "Id": 4,
+    "Name": "Fried Eggs",
+    "Category": "Breakfast",
+    "Ingredients": [
+      "eggs",
+      "oil",
+      "pannu",
+      "bread"
+    ],
+    "Instructions": [
+      "put eggs in pannu",
+      "put pannu on stove",
+      "put oil before putting the eggs in pannu",
+      "cook and eat"
+    ],
+    "IsGlutenFree": null,
+    "IsDairyFree": null,
+    "IsVegan": null
   }
 ]

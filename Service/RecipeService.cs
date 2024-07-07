@@ -8,10 +8,14 @@ namespace RecipeCLIApp.Service
     {
 
         private List<Recipe> _recipes;
+        //private readonly string _jsonFilePath = @"C:\Users\mc120\source\repos\RecipeCLIApp\RecipeCLIApp\recipes.json";
+
+        private readonly string _jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "recipes.json");
+
 
         public RecipeService()
         {
-            _recipes = LoadRecipesFromJson("recipes.json");
+            _recipes = LoadRecipesFromJson(@"C:\Users\mc120\source\repos\RecipeCLIApp\RecipeCLIApp\recipes.json");
         }
 
         private List<Recipe> LoadRecipesFromJson(string filePath)
@@ -32,6 +36,20 @@ namespace RecipeCLIApp.Service
             return new List<Recipe>();
         }
 
+        private void SaveRecipesToJson(string filePath)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(_recipes, Formatting.Indented);
+                File.WriteAllText(filePath, json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to write to file: {ex}");
+            }
+        }
+
+
         public void AddRecipe(Recipe recipe)
         {
             if (recipe == null)
@@ -41,32 +59,46 @@ namespace RecipeCLIApp.Service
             int nextId = _recipes.Any() ? _recipes.Max(r => r.Id) + 1 : 1;
             recipe.Id = nextId;
             _recipes.Add(recipe);
+            SaveRecipesToJson(_jsonFilePath);
         }
 
         public List<Recipe> GetAllRecipes()
         {
-            var recipesList = _recipes;
-            return recipesList;
+            _recipes = LoadRecipesFromJson(_jsonFilePath); 
+            return new List<Recipe>(_recipes); 
         }
 
         public Recipe GetRecipeById(int recipeId)
         {
+            _recipes = LoadRecipesFromJson(_jsonFilePath); 
             return _recipes.FirstOrDefault(r => r.Id == recipeId) ?? throw new Exception($"No recipe found with ID: {recipeId}");
         }
 
-        public void RemoveRecipe(int recipeId)
+        public bool RemoveRecipe(int recipeId)
         {
-           _recipes.RemoveAll(x => x.Id == recipeId);
+            var recipe = _recipes.FirstOrDefault(x => x.Id == recipeId);
+            if (recipe != null)
+            {
+                _recipes.Remove(recipe);
+                SaveRecipesToJson(_jsonFilePath);
+                return true;
+            }
+            return false;
         }
 
-        public List<Recipe> searchRecipe(string criteria)
+        public List<Recipe> SearchRecipe(string criteria)
         {
+
+            _recipes = LoadRecipesFromJson(_jsonFilePath);
+
             if (string.IsNullOrWhiteSpace(criteria))
             {
                 throw new ArgumentException("Search criteria cannot be null or empty.", nameof(criteria));
             }
 
-            return _recipes.Where(r => (r.Name?.Contains(criteria) ?? false) || (r.Category?.Contains(criteria) ?? false)).ToList();
+            return _recipes.Where(r =>
+                (r.Name?.Contains(criteria, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                (r.Category?.Contains(criteria, StringComparison.OrdinalIgnoreCase) ?? false)).ToList();
 
         }
     }
