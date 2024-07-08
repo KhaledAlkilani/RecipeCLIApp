@@ -21,22 +21,16 @@
   },
   {
     "Id": 4,
-    "Name": "Fried Eggs",
-    "Category": "Breakfast",
+    "Name": "Classic Tomato Soup",
+    "Category": "Soup",
     "Ingredients": [
-      "eggs",
-      "oil",
-      "pannu",
-      "bread"
+      "4 cups tomato juice\", \"14 tomatoes, peeled and chopped\", \"1/4 cup butter\", \"2 teaspoons salt\", \"2 teaspoons sugar. done"
     ],
     "Instructions": [
-      "put eggs in pannu",
-      "put pannu on stove",
-      "put oil before putting the eggs in pannu",
-      "cook and eat"
+      "Combine all ingredients in a large pot.\", \"Simmer for 30 minutes over medium heat.\", \"Puree with an immersion blender until smooth."
     ],
-    "IsGlutenFree": null,
-    "IsDairyFree": null,
-    "IsVegan": null
+    "IsGlutenFree": true,
+    "IsDairyFree": false,
+    "IsVegan": false
   }
 ]

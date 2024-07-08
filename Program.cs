@@ -9,57 +9,102 @@ class Program
         var recipeService = new RecipeService();
         Console.WriteLine("Welcome to Recipe CLI App!");
 
-    static Recipe GetRecipeFromUser()
-        {
-            Console.Write("Enter the recipe name: ");
-            string recipeName = Console.ReadLine() ?? throw new Exception();
-
-            Console.Write("Enter the recipe category: ");
-            string recipeCategory = Console.ReadLine() ?? throw new Exception();
-
-            List<string> ingredients = new List<string>();
-            string ingredient;
-
-            do
+        static Recipe GetRecipeFromUser()
             {
-                Console.Write("Enter an ingredient: ");
-                ingredient = Console.ReadLine() ?? throw new Exception();
+                Console.Write("Enter the recipe name: ");
+                string recipeName = Console.ReadLine() ?? throw new Exception();
 
-                if (!string.IsNullOrWhiteSpace(ingredient))
+                Console.Write("Enter the recipe category: ");
+                string recipeCategory = Console.ReadLine() ?? throw new Exception();
+
+                List<string> ingredients = new List<string>();
+                Console.WriteLine("Enter ingredients (type 'done' to finish):");
+
+                while (true)
                 {
-                    ingredients.Add(ingredient);
+                    string ingredient = Console.ReadLine() ?? throw new Exception("Ingredient cannot be null.");
+                    if (ingredient.Equals("done", StringComparison.OrdinalIgnoreCase))
+                        break;
+
+                    if (!string.IsNullOrWhiteSpace(ingredient))
+                    {
+                        ingredients.Add(ingredient);
+                    }
                 }
-            }
 
-            while (!string.IsNullOrWhiteSpace(ingredient));
+                List<string> instructions = new List<string>();
+                Console.WriteLine("Enter instructions (type 'done' to finish):");
 
-            List<string> instructions = new List<string>();
-            string instruction;
-
-            do
-            {
-                Console.Write("Enter an instruction: ");
-                instruction = Console.ReadLine() ?? throw new Exception();
-
-                if (!string.IsNullOrWhiteSpace(instruction))
+                while (true)
                 {
-                    instructions.Add(instruction);
+                    string instruction = Console.ReadLine() ?? throw new Exception("Instructions cannot be null.");
+                    if (instruction.Equals("done", StringComparison.OrdinalIgnoreCase))
+                        break;
+
+                    if (!string.IsNullOrWhiteSpace(instruction))
+                    {
+                        instructions.Add(instruction);
+                    }
                 }
-            }
 
-            while (!string.IsNullOrWhiteSpace(instruction));
+                bool isGlutenFree = GetDietaryPreference("Is the recipe gluten-free? (Y/N)");
+                bool isDairyFree = GetDietaryPreference("Is the recipe dairy-free? (Y/N)");
+                bool isVegan = GetDietaryPreference("Is recipe vegan? (Y/N)");
 
-            //Console.Write("Is recipe zero-gluten? ");
-            //string isGluten = Console.ReadLine() ?? throw new Exception();
-
-            return new Recipe
+            Recipe newRecipe = new Recipe
             {
                 Name = recipeName,
                 Category = recipeCategory,
                 Ingredients = ingredients,
-                Instructions = instructions
+                Instructions = instructions,
+                IsGlutenFree = isGlutenFree,
+                IsDairyFree = isDairyFree,
+                IsVegan = isVegan,
             };
+
+            while (true)
+            {
+                Console.WriteLine("Are you sure you want to add this recipe? (Y/N)");
+                string recipeAddConfirmation = Console.ReadLine().Trim().ToUpper() ?? throw new Exception();
+
+                if (recipeAddConfirmation == "Y")
+                {
+                    return newRecipe;
+                    
+                }
+                else if (recipeAddConfirmation == "N")
+                {
+                    Console.WriteLine("Recipe addition cancelled.");
+                    return null;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid answer, please answer Y or N");
+                }
+            }
         };
+
+        static bool GetDietaryPreference(string prompt)
+        {
+            Console.Write(prompt);
+            string response;
+            
+            while (true)
+            {
+                response = Console.ReadLine().Trim().ToUpper() ?? throw new Exception();
+
+                if (response == "Y")
+                {
+                    return true;
+                } else if (response == "N")
+                {
+                    return false;
+                } else
+                {
+                    Console.WriteLine("Invalid input. Please enter 'Y' for Yes or 'N' for No.");
+                }
+            }
+        }
 
         static string GetSearchCriteria()
         {
@@ -157,16 +202,21 @@ class Program
                 case "3":
 
                     Recipe newRecipe = GetRecipeFromUser();
-                    
-                    try
+                    if (newRecipe != null)
                     {
-                        recipeService.AddRecipe(newRecipe);
-                        Console.WriteLine("Recipe added successfully!");
-                    }
+                        try
+                        {
+                            recipeService.AddRecipe(newRecipe);
+                            Console.WriteLine("Recipe added successfully!");
+                        }
 
-                    catch (Exception ex)
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error {ex.Message}");
+                        }
+                    } else
                     {
-                        Console.WriteLine($"Error {ex.Message}");
+                        Console.WriteLine("No new recipe was added.");
                     }
                     break;
 

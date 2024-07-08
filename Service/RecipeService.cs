@@ -8,8 +8,6 @@ namespace RecipeCLIApp.Service
     {
 
         private List<Recipe> _recipes;
-        //private readonly string _jsonFilePath = @"C:\Users\mc120\source\repos\RecipeCLIApp\RecipeCLIApp\recipes.json";
-
         private readonly string _jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "recipes.json");
 
 
