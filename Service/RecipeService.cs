@@ -8,12 +8,13 @@ namespace RecipeCLIApp.Service
     {
 
         private List<Recipe> _recipes;
-        private readonly string _jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "recipes.json");
+        //private readonly string _jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "recipes.json");
 
+        private readonly string _jsonFilePath = "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp\\recipes.json";
 
         public RecipeService()
         {
-            _recipes = LoadRecipesFromJson(@"C:\Users\mc120\source\repos\RecipeCLIApp\RecipeCLIApp\recipes.json");
+            _recipes = LoadRecipesFromJson(_jsonFilePath);
         }
 
         private List<Recipe> LoadRecipesFromJson(string filePath)
@@ -57,6 +58,25 @@ namespace RecipeCLIApp.Service
             int nextId = _recipes.Any() ? _recipes.Max(r => r.Id) + 1 : 1;
             recipe.Id = nextId;
             _recipes.Add(recipe);
+            SaveRecipesToJson(_jsonFilePath);
+        }
+
+        public void UpdateRecipe(int recipeId, Recipe updatedRecipe)
+        {
+            var existingRecipe = _recipes.FirstOrDefault(r => r.Id == recipeId);
+            if (existingRecipe == null)
+            {
+                throw new Exception("Recipe not found.");
+            }
+
+            existingRecipe.Name = updatedRecipe.Name;
+            existingRecipe.Category = updatedRecipe.Category;
+            existingRecipe.Ingredients = updatedRecipe.Ingredients;
+            existingRecipe.Instructions = updatedRecipe.Instructions;
+            existingRecipe.IsGlutenFree = updatedRecipe.IsGlutenFree;
+            existingRecipe.IsDairyFree = updatedRecipe.IsDairyFree;
+            existingRecipe.IsVegan = updatedRecipe.IsVegan;
+
             SaveRecipesToJson(_jsonFilePath);
         }
 
