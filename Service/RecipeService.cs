@@ -12,6 +12,9 @@ namespace RecipeCLIApp.Service
 
         public RecipeService()
         {
+            // When testing the app and to get the recipes data from recipes.json file, replace the path with the path on your
+            // device where you're testing the app by right click on the recipes.json file => copy full path => paste the path here =>
+            // clean and build.
             _jsonFilePath = Path.Combine("C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp\\recipes.json");
             _recipes = LoadRecipesFromJson(_jsonFilePath);
         }
