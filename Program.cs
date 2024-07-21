@@ -203,14 +203,42 @@ class Program
 
         //____________________________________________________
 
-            static Recipe GetRecipeFromUser()
+        static Recipe GetRecipeFromUser()
         {
-            Console.Write("Enter the recipe name: ");
-            string recipeName = Console.ReadLine() ?? throw new Exception();
+            string recipeName = "";
+            string recipeCategory = "";
 
-            Console.Write("Enter the recipe category: ");
-            string recipeCategory = Console.ReadLine() ?? throw new Exception();
+            while (true)
+            {
+                Console.Write("Enter the recipe name: ");
+                recipeName = Console.ReadLine() ?? throw new Exception();
 
+                if (string.IsNullOrWhiteSpace(recipeName))
+                {
+                    Console.WriteLine("Recipe name cannot be empty. Please enter a valid name.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+        
+
+            while (true)
+            {
+                Console.Write("Enter the recipe category: ");
+                recipeCategory = Console.ReadLine() ?? throw new Exception();
+
+                if (string.IsNullOrWhiteSpace(recipeCategory))
+                {
+                    Console.WriteLine("Recipe category cannot be empty. Please enter a valid category.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+           
             List<string> ingredients = new List<string>();
             Console.WriteLine("Enter ingredients (press 'Enter' then type 'done' to finish):");
 
@@ -241,9 +269,9 @@ class Program
                 }
             }
 
-            var isGlutenFree = GetDietaryPreference("Is the recipe gluten-free? (Y/N)");
-            var isDairyFree = GetDietaryPreference("Is the recipe dairy-free? (Y/N)");
-            var isVegan = GetDietaryPreference("Is recipe vegan? (Y/N)");
+            var isGlutenFree = GetDietaryPreference("Is the recipe gluten-free? (Y/N) or press Enter to skip. ");
+            var isDairyFree = GetDietaryPreference("Is the recipe dairy-free? (Y/N) or press Enter to skip. ");
+            var isVegan = GetDietaryPreference("Is recipe vegan? (Y/N) or press Enter to skip. ");
 
             Recipe newRecipe = new Recipe
             {
@@ -353,9 +381,9 @@ class Program
             }
 
             // Update dietary information
-            recipeToUpdate.IsGlutenFree = GetDietaryPreference("Is the recipe gluten-free? (Y/N) or press Enter to skip.");
-            recipeToUpdate.IsDairyFree = GetDietaryPreference("Is the recipe dairy-free? (Y/N) or press Enter to skip.");
-            recipeToUpdate.IsVegan = GetDietaryPreference("Is the recipe vegan? (Y/N) or press Enter to skip.");
+            recipeToUpdate.IsGlutenFree = GetDietaryPreference("Is the recipe gluten-free? (Y/N) or press Enter to skip. ");
+            recipeToUpdate.IsDairyFree = GetDietaryPreference("Is the recipe dairy-free? (Y/N) or press Enter to skip. ");
+            recipeToUpdate.IsVegan = GetDietaryPreference("Is the recipe vegan? (Y/N) or press Enter to skip. ");
 
             // Update ingredients
             Console.WriteLine("Current Ingredients:");
@@ -475,18 +503,26 @@ class Program
 
         static string GetSearchCriteria()
         {
+            string criteria = "";
 
-            Console.Write("Enter recipe name or category: ");
-            string criteria = Console.ReadLine()?.Trim().ToUpper() ?? throw new Exception();
-            if (string.IsNullOrEmpty(criteria))
-                throw new Exception("Input cannot be empty.");
+            while (true)
+            {
+                Console.Write("Enter recipe name or category: ");
+                criteria = Console.ReadLine()?.Trim().ToUpper() ?? throw new Exception();
+
+                if (!string.IsNullOrEmpty(criteria))
+                {
+                    break;
+                }
+
+                Console.WriteLine("Input cannot be empty. Please enter a valid recipe name or category.");
+            }
 
             return criteria;
-
         }
 
-        }
     }
+}
 
 
 

@@ -8,12 +8,11 @@ namespace RecipeCLIApp.Service
     {
 
         private List<Recipe> _recipes;
-        //private readonly string _jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "recipes.json");
-
-        private readonly string _jsonFilePath = "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp\\recipes.json";
+        private readonly string _jsonFilePath;
 
         public RecipeService()
         {
+            _jsonFilePath = Path.Combine("C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp\\recipes.json");
             _recipes = LoadRecipesFromJson(_jsonFilePath);
         }
 
@@ -31,8 +30,8 @@ namespace RecipeCLIApp.Service
             catch (Exception ex)
             {
                 Console.WriteLine($"Failed to load recipes from JSON file: {ex.Message}");
+                return new List<Recipe>();
             }
-            return new List<Recipe>();
         }
 
         private void SaveRecipesToJson(string filePath)
@@ -48,13 +47,13 @@ namespace RecipeCLIApp.Service
             }
         }
 
-
         public void AddRecipe(Recipe recipe)
         {
             if (recipe == null)
             {
                 throw new ArgumentNullException(nameof(recipe), "Provided recipe is null.");
             }
+
             int nextId = _recipes.Any() ? _recipes.Max(r => r.Id) + 1 : 1;
             recipe.Id = nextId;
             _recipes.Add(recipe);
@@ -114,9 +113,11 @@ namespace RecipeCLIApp.Service
                 throw new ArgumentException("Search criteria cannot be null or empty.", nameof(criteria));
             }
 
-            return _recipes.Where(r =>
+            var searchedCriteria = _recipes.Where(r =>
                 (r.Name?.Contains(criteria, StringComparison.OrdinalIgnoreCase) ?? false) ||
                 (r.Category?.Contains(criteria, StringComparison.OrdinalIgnoreCase) ?? false)).ToList();
+
+            return searchedCriteria;
 
         }
     }

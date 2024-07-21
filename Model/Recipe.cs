@@ -1,4 +1,7 @@
 ﻿
+using System.Collections.Generic;
+using System.Xml;
+
 namespace RecipeCLIApp.Model
 {
     public class Recipe
@@ -10,6 +13,6 @@ namespace RecipeCLIApp.Model
         public List<string>? Instructions { get; set; }
         public bool? IsGlutenFree { get; set; }
         public bool? IsDairyFree { get; set; }
-        public bool? IsVegan {  get; set; }
+        public bool? IsVegan { get; set; }
     }
 }
