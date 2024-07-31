@@ -1,6 +1,6 @@
 ﻿using Npgsql;
-using RecipeCLIApp.Interface;
 using RecipeCLIApp.Model;
+using RecipeCLIApp.Repository;
 using System;
 
 namespace RecipeCLIApp.Repositories

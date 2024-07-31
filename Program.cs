@@ -105,7 +105,6 @@ class Program
                     {
                         try
                         {
-                            Console.WriteLine("Calling AddRecipe method");
                             recipeService.AddRecipe(newRecipe);
                             Console.WriteLine("Recipe added successfully!");
                         }

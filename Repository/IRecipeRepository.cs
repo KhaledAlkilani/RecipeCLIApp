@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using Npgsql;
 using RecipeCLIApp.Model;
 
-namespace RecipeCLIApp.Interface
+namespace RecipeCLIApp.Repository
 {
     public interface IRecipeRepository
     {

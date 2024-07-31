@@ -1,8 +1,8 @@
-﻿using RecipeCLIApp.Interface;
-using RecipeCLIApp.Model;
+﻿using RecipeCLIApp.Model;
 using Newtonsoft.Json;
 using Npgsql;
 using RecipeCLIApp.Repositories;
+using RecipeCLIApp.Repository;
 
 namespace RecipeCLIApp.Service
 {
