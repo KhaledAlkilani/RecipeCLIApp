@@ -1,0 +1,30 @@
+﻿version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: kdevserverdb
+      POSTGRES_DB: RecipeCLI_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - recipe-net
+
+  app:
+    build: .
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=RecipeCLI_db;Username=postgres;Password=kdevserverdb"
+    depends_on:
+      - db
+    networks:
+      - recipe-net
+
+networks:
+  recipe-net:
+
+volumes:
+  db-data:
