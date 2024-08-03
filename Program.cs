@@ -1,4 +1,6 @@
-﻿using RecipeCLIApp.Model;
+﻿using Npgsql;
+using RecipeCLIApp.Model;
+using RecipeCLIApp.Repositories;
 using RecipeCLIApp.Service;
 
 class Program
@@ -6,7 +8,9 @@ class Program
     static void Main(string[] args)
     {
 
-        var recipeService = new RecipeService();
+        var connectionString = "Host=localhost;Port=5432;Database=RecipeCLI_db;Username=postgres;Password=kdevserverdb;Timeout=10;SslMode=Prefer;";
+        var recipeRepository = new RecipeRepository(connectionString);
+        var recipeService = new RecipeService(recipeRepository);
 
         Console.WriteLine("Welcome to Recipe CLI App!");
 

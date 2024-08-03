@@ -1,6 +1,6 @@
 ﻿using RecipeCLIApp.Model;
 
-namespace RecipeCLIApp.Interface
+namespace RecipeCLIApp.Service
 {
     public interface IRecipeService
     {

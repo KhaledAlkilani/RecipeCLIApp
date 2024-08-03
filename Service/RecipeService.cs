@@ -1,6 +1,8 @@
-﻿using RecipeCLIApp.Interface;
-using RecipeCLIApp.Model;
+﻿using RecipeCLIApp.Model;
 using Newtonsoft.Json;
+using Npgsql;
+using RecipeCLIApp.Repositories;
+using RecipeCLIApp.Repository;
 
 namespace RecipeCLIApp.Service
 {
@@ -8,46 +10,12 @@ namespace RecipeCLIApp.Service
     {
 
         private List<Recipe> _recipes;
-        private readonly string _jsonFilePath;
+        private readonly IRecipeRepository _recipeRepository;
 
-        public RecipeService()
+        public RecipeService(IRecipeRepository recipeRepository)
         {
-            // When testing the app and to get the recipes data from recipes.json file, replace the path with the path on your
-            // device where you're testing the app by right click on the recipes.json file => copy full path => paste the path here =>
-            // clean and build.
-            _jsonFilePath = Path.Combine("C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp\\recipes.json");
-            _recipes = LoadRecipesFromJson(_jsonFilePath);
-        }
-
-        private List<Recipe> LoadRecipesFromJson(string filePath)
-        {
-            try
-            {
-                // Read the file content in one go
-                string json = File.ReadAllText(filePath);
-                // Deserialize the JSON directly into a List of Recipe
-                var recipes = JsonConvert.DeserializeObject<List<Recipe>>(json);
-                // Return the list, ensuring it is never null
-                return recipes ?? new List<Recipe>();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Failed to load recipes from JSON file: {ex.Message}");
-                return new List<Recipe>();
-            }
-        }
-
-        private void SaveRecipesToJson(string filePath)
-        {
-            try
-            {
-                string json = JsonConvert.SerializeObject(_recipes, Formatting.Indented);
-                File.WriteAllText(filePath, json);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Failed to write to file: {ex}");
-            }
+            _recipeRepository = recipeRepository ?? throw new ArgumentNullException(nameof(recipeRepository));
+            _recipeRepository.EnsureRecipesTableExists();
         }
 
         public void AddRecipe(Recipe recipe)
@@ -57,70 +25,65 @@ namespace RecipeCLIApp.Service
                 throw new ArgumentNullException(nameof(recipe), "Provided recipe is null.");
             }
 
-            int nextId = _recipes.Any() ? _recipes.Max(r => r.Id) + 1 : 1;
-            recipe.Id = nextId;
-            _recipes.Add(recipe);
-            SaveRecipesToJson(_jsonFilePath);
+            try
+            {
+               _recipeRepository.AddRecipe(recipe);
+           
+            }
+            catch (PostgresException ex) when (ex.SqlState == "23505")
+            {
+                Console.WriteLine("A recipe with the same name and category already exists.");
+            }
         }
 
         public void UpdateRecipe(int recipeId, Recipe updatedRecipe)
         {
-            var existingRecipe = _recipes.FirstOrDefault(r => r.Id == recipeId);
+            if (updatedRecipe == null)
+            {
+                throw new ArgumentNullException(nameof(updatedRecipe), "Updated recipe is null.");
+            }
+
+            var existingRecipe = _recipeRepository.GetRecipeById(recipeId);
             if (existingRecipe == null)
             {
                 throw new Exception("Recipe not found.");
             }
 
-            existingRecipe.Name = updatedRecipe.Name;
-            existingRecipe.Category = updatedRecipe.Category;
-            existingRecipe.Ingredients = updatedRecipe.Ingredients;
-            existingRecipe.Instructions = updatedRecipe.Instructions;
-            existingRecipe.IsGlutenFree = updatedRecipe.IsGlutenFree;
-            existingRecipe.IsDairyFree = updatedRecipe.IsDairyFree;
-            existingRecipe.IsVegan = updatedRecipe.IsVegan;
-
-            SaveRecipesToJson(_jsonFilePath);
+            updatedRecipe.Id = recipeId;
+            _recipeRepository.UpdateRecipe(updatedRecipe);
         }
 
         public List<Recipe> GetAllRecipes()
         {
-            _recipes = LoadRecipesFromJson(_jsonFilePath); 
-            return new List<Recipe>(_recipes); 
+            return _recipeRepository.GetAllRecipes();
         }
 
         public Recipe GetRecipeById(int recipeId)
         {
-            _recipes = LoadRecipesFromJson(_jsonFilePath); 
-            return _recipes.FirstOrDefault(r => r.Id == recipeId) ?? throw new Exception($"No recipe found with ID: {recipeId}");
+            return _recipeRepository.GetRecipeById(recipeId) ?? throw new Exception("Recipe not found.");
         }
 
         public bool RemoveRecipe(int recipeId)
         {
-            var recipe = _recipes.FirstOrDefault(x => x.Id == recipeId);
-            if (recipe != null)
+           var existingRecipe = _recipeRepository.GetRecipeById(recipeId);
+            if (existingRecipe == null)
             {
-                _recipes.Remove(recipe);
-                SaveRecipesToJson(_jsonFilePath);
-                return true;
+                return false;
             }
-            return false;
+
+            _recipeRepository.DeleteRecipeById(recipeId);
+            return true;
         }
 
         public List<Recipe> SearchRecipe(string criteria)
         {
-
-            _recipes = LoadRecipesFromJson(_jsonFilePath);
 
             if (string.IsNullOrWhiteSpace(criteria))
             {
                 throw new ArgumentException("Search criteria cannot be null or empty.", nameof(criteria));
             }
 
-            var searchedCriteria = _recipes.Where(r =>
-                (r.Name?.Contains(criteria, StringComparison.OrdinalIgnoreCase) ?? false) ||
-                (r.Category?.Contains(criteria, StringComparison.OrdinalIgnoreCase) ?? false)).ToList();
-
-            return searchedCriteria;
+            return _recipeRepository.SearchRecipes(criteria);
 
         }
     }

@@ -1,0 +1,21 @@
+﻿# .NET
+bin/
+obj/
+
+# Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Environment variables
+.env
+.env.*
+
+# Rider
+.idea/
+
+# Logs
+*.log
