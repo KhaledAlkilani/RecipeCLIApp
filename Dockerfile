@@ -16,6 +16,6 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 
 # Set environment variables for database connection
-ENV ConnectionStrings__DefaultConnection="Host=db;Port=5432;Database=RecipeCLI_db;Username=postgres;Password=kdevserverdb"
+ENV ConnectionStrings__DefaultConnection=$CONNECTION_STRING
 
 ENTRYPOINT ["dotnet", "RecipeCLIApp.dll"]

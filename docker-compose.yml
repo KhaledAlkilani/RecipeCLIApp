@@ -4,9 +4,9 @@ services:
   db:
     image: postgres:13
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: kdevserverdb
-      POSTGRES_DB: RecipeCLI_db
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -17,7 +17,7 @@ services:
   app:
     build: .
     environment:
-      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=RecipeCLI_db;Username=postgres;Password=kdevserverdb"
+      ConnectionStrings__DefaultConnection: ${CONNECTION_STRING}
     depends_on:
       - db
     networks:

@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using DotNetEnv;
+using Npgsql;
 using RecipeCLIApp.Model;
 using RecipeCLIApp.Repositories;
 using RecipeCLIApp.Service;
@@ -8,7 +9,18 @@ class Program
     static void Main(string[] args)
     {
 
-        var connectionString = "Host=localhost;Port=5432;Database=RecipeCLI_db;Username=postgres;Password=kdevserverdb;Timeout=10;SslMode=Prefer;";
+        // Load environment variables from the .env file
+        Env.Load();
+
+        // Retrieve the connection string from the environment variables
+        var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            Console.WriteLine("Error: Connection string is not set.");
+            return;
+        }
+
         var recipeRepository = new RecipeRepository(connectionString);
         var recipeService = new RecipeService(recipeRepository);
 
