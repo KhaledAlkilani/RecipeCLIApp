@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AZaqxRJy5SdVhXtlcQhUFhgM7aX45ZvxXllCkBfSBeuPbKCPWgXwAvNSPB1e7K878Ui0Bz/qJWkoaja+Uqfang==",
+  "dgSpecHash": "WgpiwEzNuJHZRGi+8g2OG2RTRPC03sZMYW3RTZCNSmzcVVHAKTDgpexyONbSZNcvTNYcWbXEhpisDUJM7xtBCg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp\\RecipeCLIApp.csproj",
+  "projectFilePath": "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mc120\\.nuget\\packages\\dotnetenv\\3.1.0\\dotnetenv.3.1.0.nupkg.sha512",
     "C:\\Users\\mc120\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.0\\microsoft.entityframeworkcore.8.0.0.nupkg.sha512",

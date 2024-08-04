@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp\\RecipeCLIApp.csproj": {}
+    "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp\\RecipeCLIApp.csproj": {
+    "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp\\RecipeCLIApp.csproj",
+        "projectUniqueName": "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp.csproj",
         "projectName": "RecipeCLIApp",
-        "projectPath": "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp\\RecipeCLIApp.csproj",
+        "projectPath": "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp.csproj",
         "packagesPath": "C:\\Users\\mc120\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\RecipeCLIApp\\obj\\",
+        "outputPath": "C:\\Users\\mc120\\source\\repos\\RecipeCLIApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
