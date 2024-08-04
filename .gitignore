@@ -19,3 +19,7 @@ obj/
 
 # Logs
 *.log
+
+# Ignore build artifacts
+bin/
+obj/
