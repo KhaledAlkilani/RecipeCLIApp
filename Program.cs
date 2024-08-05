@@ -14,6 +14,7 @@ class Program
 
         // Retrieve the connection string from the environment variables
         var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+        Console.WriteLine($"Connection String: {connectionString}");
 
         if (string.IsNullOrEmpty(connectionString))
         {

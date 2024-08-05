@@ -16,6 +16,7 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 
 # Set environment variables for database connection
+ARG CONNECTION_STRING
 ENV ConnectionStrings__DefaultConnection=$CONNECTION_STRING
 
-ENTRYPOINT ["dotnet", "RecipeCLIApp.dll"]
+ENTRYPOINT ["dotnet", "RecipeCLIApp.dll"]	
