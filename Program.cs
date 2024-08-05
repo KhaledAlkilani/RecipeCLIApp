@@ -12,17 +12,21 @@ class Program
         // Load environment variables from the .env file
         Env.Load();
 
-        // Retrieve the connection string from the environment variables
-        var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        string connectionString;
 
-        if (string.IsNullOrEmpty(connectionString))
+        if (environment == "Development")
         {
-            Console.WriteLine("Error: Connection string is not set.");
-            return;
+            connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING_LOCAL");
+        }
+        else
+        {
+            connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING_DOCKER");
         }
 
         var recipeRepository = new RecipeRepository(connectionString);
         var recipeService = new RecipeService(recipeRepository);
+
 
         Console.WriteLine("Welcome to Recipe CLI App!");
 

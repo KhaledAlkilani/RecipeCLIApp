@@ -19,4 +19,4 @@ COPY --from=build-env /app/out .
 ARG CONNECTION_STRING
 ENV ConnectionStrings__DefaultConnection=$CONNECTION_STRING
 
-ENTRYPOINT ["dotnet", "RecipeCLIApp.dll"]	
+ENTRYPOINT ["dotnet", "RecipeCLIApp.dll"]
