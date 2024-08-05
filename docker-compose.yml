@@ -4,13 +4,9 @@ services:
   db:
     image: postgres:13
     environment:
-      POSTGRES_USER_FILE: /run/secrets/postgres_user
-      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
-      POSTGRES_DB_FILE: /run/secrets/postgres_db
-    secrets:
-      - postgres_user
-      - postgres_password
-      - postgres_db
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
     ports:
       - "5432:5432"
     volumes:
@@ -19,29 +15,16 @@ services:
       - recipe-net
 
   app:
-    image: khaled963/recipecliapp:latest
     build:
       context: .
       args:
-        CONNECTION_STRING_FILE: /run/secrets/connection_string
+        CONNECTION_STRING: "${CONNECTION_STRING}"
     environment:
-      ConnectionStrings__DefaultConnection_FILE: /run/secrets/connection_string
-    secrets:
-      - connection_string
+      ConnectionStrings__DefaultConnection: "${CONNECTION_STRING}"
     depends_on:
       - db
     networks:
       - recipe-net
-
-secrets:
-  postgres_user:
-    file: ./secrets/postgres_user.txt
-  postgres_password:
-    file: ./secrets/postgres_password.txt
-  postgres_db:
-    file: ./secrets/postgres_db.txt
-  connection_string:
-    file: ./secrets/connection_string.txt
 
 networks:
   recipe-net:
