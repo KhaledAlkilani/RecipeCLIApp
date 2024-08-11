@@ -21,7 +21,6 @@ services:
         CONNECTION_STRING: "${CONNECTION_STRING_DOCKER}"
     environment:
       ConnectionStrings__DefaultConnection: "${CONNECTION_STRING_DOCKER}"
-      ASPNETCORE_ENVIRONMENT: "Docker"
     depends_on:
       - db
     networks:
