@@ -18,7 +18,7 @@ services:
     build:
       context: .
       args:
-        CONNECTION_STRING: "${CONNECTION_STRING_DOCKER}"
+        CONNECTION_STRING_DOCKER: "${CONNECTION_STRING_DOCKER}"
     environment:
       ConnectionStrings__DefaultConnection: "${CONNECTION_STRING_DOCKER}"
     depends_on:
@@ -31,3 +31,4 @@ networks:
 
 volumes:
   db-data:
+    
