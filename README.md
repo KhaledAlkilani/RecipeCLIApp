@@ -30,6 +30,7 @@ CONNECTION_STRING_LOCAL=Host=localhost;Port=5432;Database=your_postgres_db;Usern
 CONNECTION_STRING_DOCKER=Host=db;Port=5432;Database=your_postgres_db;Username=your_postgres_user;Password=your_postgres_password;Timeout=10;SslMode=Prefer;
 
 4. Pull Docker App Image from Docker Hub
+Ensure docker desktop application is open.
 To pull the pre-built Docker image of the app from Docker Hub:
 
 docker push khaled963/recipecliapp:latest
