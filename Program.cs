@@ -91,9 +91,9 @@ class Program
                             }
                             Console.WriteLine();
                             Console.WriteLine(">>>Nutrition Information<<<");
-                            Console.WriteLine($"- Is gluten free? {recipeById.IsGlutenFree}");
-                            Console.WriteLine($"- Is dairy free? {recipeById.IsDairyFree}");
-                            Console.WriteLine($"- Is vegan free? {recipeById.IsVegan}");
+                            Console.WriteLine($"- Is gluten free? {(recipeById.IsGlutenFree.HasValue && recipeById.IsGlutenFree.Value ? "Yes" : "No")}");
+                            Console.WriteLine($"- Is dairy free? {(recipeById.IsDairyFree.HasValue && recipeById.IsDairyFree.Value ? "Yes" : "No")}");
+                            Console.WriteLine($"- Is vegan free? {(recipeById.IsVegan.HasValue && recipeById.IsVegan.Value ? "Yes" : "No")}");
                         }
                         else
                         {
