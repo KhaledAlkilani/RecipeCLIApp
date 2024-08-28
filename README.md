@@ -1,11 +1,12 @@
 This is a C# CLI application for managing recipes. The application interacts with a PostgreSQL database, and both the app and the database can be run using Docker containers.
 
 Prerequisites:
+
 Before getting started, ensure you have the following installed:
 
-.NET SDK 8.0 or later
-Visual Studio 2022: to open, clean, and build the solution.
-Docker Desktop: for building and running Docker containers.
+- .NET SDK 8.0 or later
+- Visual Studio 2022: to open, clean, and build the solution.
+- Docker Desktop: for building and running Docker containers.
 
 Getting Started
 1. Clone the Repository
