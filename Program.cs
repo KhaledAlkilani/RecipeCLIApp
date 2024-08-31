@@ -70,7 +70,7 @@ class Program
 
                             Console.WriteLine();
                             Console.WriteLine(">>>Recipe ID and Name<<<");
-                            Console.WriteLine($"{recipeById.Id}. {recipeById.Name}.");
+                            Console.WriteLine($"ID: {recipeById.Id}. Recipe: {recipeById.Name}.");
                             Console.WriteLine();
                             Console.WriteLine(">>>Category<<<");
                             Console.WriteLine($"{recipeById.Category}.");
@@ -79,7 +79,7 @@ class Program
 
                             foreach (var ingredient in recipeById.Ingredients ?? throw new Exception())
                             {
-                                Console.WriteLine($"- {ingredient}");
+                                Console.WriteLine($"{ingredient}");
                             }
 
                             Console.WriteLine();
@@ -87,7 +87,7 @@ class Program
 
                             foreach (var instruction in recipeById.Instructions ?? throw new Exception())
                             {
-                                Console.WriteLine($"- {instruction}");
+                                Console.WriteLine($"{instruction}");
                             }
                             Console.WriteLine();
                             Console.WriteLine(">>>Nutrition Information<<<");
@@ -222,6 +222,7 @@ class Program
         {
             string recipeName = "";
             string recipeCategory = "";
+            int numbering = 0;
 
             while (true)
             {
@@ -237,8 +238,6 @@ class Program
                     break;
                 }
             }
-        
-
             while (true)
             {
                 Console.Write("Enter the recipe category: ");
@@ -253,7 +252,7 @@ class Program
                     break;
                 }
             }
-           
+
             List<string> ingredients = new List<string>();
             Console.WriteLine("Enter ingredients (press 'Enter' then type 'done' to finish):");
 
@@ -265,9 +264,12 @@ class Program
 
                 if (!string.IsNullOrWhiteSpace(ingredient))
                 {
-                    ingredients.Add(ingredient);
+                    numbering++;
+                    ingredients.Add($"{numbering}. {ingredient}");
                 }
             }
+
+            numbering = 0;
 
             List<string> instructions = new List<string>();
             Console.WriteLine("Enter instructions (press 'Enter' then type 'done' to finish):");
@@ -280,9 +282,12 @@ class Program
 
                 if (!string.IsNullOrWhiteSpace(instruction))
                 {
-                    instructions.Add(instruction);
+                    numbering++;
+                    instructions.Add($"{numbering}. {instruction}");
                 }
             }
+
+            numbering = 0;
 
             var isGlutenFree = GetDietaryPreference("Is the recipe gluten-free? (Y/N) or press Enter to skip. ");
             var isDairyFree = GetDietaryPreference("Is the recipe dairy-free? (Y/N) or press Enter to skip. ");
@@ -395,51 +400,131 @@ class Program
                 recipeToUpdate.Category = newCategory;
             }
 
-            // Update dietary information
-            recipeToUpdate.IsGlutenFree = GetDietaryPreference("Is the recipe gluten-free? (Y/N) or press Enter to skip. ");
-            recipeToUpdate.IsDairyFree = GetDietaryPreference("Is the recipe dairy-free? (Y/N) or press Enter to skip. ");
-            recipeToUpdate.IsVegan = GetDietaryPreference("Is the recipe vegan? (Y/N) or press Enter to skip. ");
-
             // Update ingredients
-            Console.WriteLine("Current Ingredients:");
-            int ingredientIndex = 1;
-            foreach (var ingredient in recipeToUpdate.Ingredients ?? throw new Exception())
+            while (true)
             {
-                Console.WriteLine($"{ingredientIndex++}: {ingredient}");
-            }
-            Console.WriteLine("Type 'add' to add a new ingredient or the number to delete an ingredient.");
-            string ingredientResponse = Console.ReadLine()?.ToLower() ?? throw new Exception();
-            if (ingredientResponse == "add")
-            {
-                Console.WriteLine("Enter new ingredient:");
-                string newIngredient = Console.ReadLine() ?? throw new Exception();
-                recipeToUpdate.Ingredients.Add(newIngredient);
-            }
-            else if (int.TryParse(ingredientResponse, out int ingredientNumber) && ingredientNumber <= recipeToUpdate.Ingredients.Count)
-            {
-                recipeToUpdate.Ingredients.RemoveAt(ingredientNumber - 1);
-                Console.WriteLine("Ingredient removed.");
+                Console.WriteLine("Current Ingredients:");
+                foreach (var ingredient in recipeToUpdate.Ingredients ?? throw new Exception())
+                {
+                    Console.WriteLine(ingredient);
+                }
+
+                Console.WriteLine("Type 'add' to add a new ingredient, the number to delete an ingredient, or 'done' to move to the next section.");
+                string ingredientResponse = Console.ReadLine()?.ToLower() ?? throw new Exception();
+                if (ingredientResponse == "add")
+                {
+                    Console.WriteLine("Enter new ingredient:");
+                    string newIngredient = Console.ReadLine() ?? throw new Exception();
+                    if (!string.IsNullOrWhiteSpace(newIngredient))
+                    {
+
+                        int newIngredientNumber = recipeToUpdate.Ingredients.Count + 1;
+
+                        recipeToUpdate.Ingredients.Add($"{newIngredientNumber}. {newIngredient}");
+                        Console.WriteLine("Ingredient added.");
+                    }
+                }
+
+                else if (ingredientResponse == "done")
+                {
+                    break;
+                }
+                else if (int.TryParse(ingredientResponse, out int ingredientNumber) && ingredientNumber >= 1 && ingredientNumber <= recipeToUpdate.Ingredients.Count)
+                {
+                    recipeToUpdate.Ingredients.RemoveAt(ingredientNumber - 1);
+                    Console.WriteLine("Ingredient removed.");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter 'add', a valid number, or 'done'.");
+                }
             }
 
             // Update instructions
-            Console.WriteLine("Current Instructions:");
-            int instructionIndex = 1;
-            foreach (var instruction in recipeToUpdate.Instructions ?? throw new Exception())
+            while (true)
             {
-                Console.WriteLine($"{instructionIndex++}: {instruction}");
+                Console.WriteLine("Current Instructions:");
+                foreach (var instruction  in recipeToUpdate.Instructions ?? throw new Exception())
+                {
+                    Console.WriteLine(instruction);
+
+                }
+
+                Console.WriteLine("Type 'add' to add a new instruction, the number to delete an instruction, or 'done' to move to the next section.");
+                string instructionResponse = Console.ReadLine()?.ToLower() ?? throw new Exception();
+                if (instructionResponse == "add")
+                {
+                    Console.WriteLine("Enter new instruction:");
+                    string newInstruction = Console.ReadLine() ?? throw new Exception();
+                    if (!string.IsNullOrWhiteSpace(newInstruction))
+                    {
+
+                        int newInstructionNumber = recipeToUpdate.Instructions.Count + 1;
+
+                        recipeToUpdate.Instructions.Add($"{newInstructionNumber}. {newInstruction}");
+                        Console.WriteLine("Instruction added.");
+                    }
+                }
+                else if (instructionResponse == "done")
+                {
+                    break;
+                }
+                else if (int.TryParse(instructionResponse, out int instructionNumber) && instructionNumber >= 1 && instructionNumber <= recipeToUpdate.Instructions.Count)
+                {
+                    recipeToUpdate.Instructions.RemoveAt(instructionNumber - 1);
+                    Console.WriteLine("Instruction removed.");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter 'add', a valid number, or 'done'.");
+                }
             }
-            Console.WriteLine("Type 'add' to add a new instruction or the number to delete an instruction.");
-            string instructionResponse = Console.ReadLine()?.ToLower() ?? throw new Exception();
-            if (instructionResponse == "add")
+
+            // Update dietary information
+            Console.WriteLine($">>> Current Nutrition Information <<<");
+            Console.WriteLine($"- Current gluten-free status: {(recipeToUpdate.IsGlutenFree.HasValue ? (recipeToUpdate.IsGlutenFree.Value ? "Yes" : "No") : "Not specified")}");
+            Console.Write("Is the recipe gluten-free? (Y/N) or press Enter to skip: ");
+            string glutenFreeResponse = Console.ReadLine()?.Trim().ToUpper() ?? throw new Exception();
+            if (!string.IsNullOrWhiteSpace(glutenFreeResponse))
             {
-                Console.WriteLine("Enter new instruction:");
-                string newInstruction = Console.ReadLine() ?? throw new Exception();
-                recipeToUpdate.Instructions.Add(newInstruction);
+                if (glutenFreeResponse == "Y")
+                {
+                    recipeToUpdate.IsGlutenFree = true;
+                }
+                else if (glutenFreeResponse == "N")
+                {
+                    recipeToUpdate.IsGlutenFree = false;
+                }
             }
-            else if (int.TryParse(instructionResponse, out int instructionNumber) && instructionNumber <= recipeToUpdate.Instructions.Count)
+
+            Console.WriteLine($"- Current dairy-free status: {(recipeToUpdate.IsDairyFree.HasValue ? (recipeToUpdate.IsDairyFree.Value ? "Yes" : "No") : "Not specified")}");
+            Console.Write("Is the recipe dairy-free? (Y/N) or press Enter to skip: ");
+            string dairyFreeResponse = Console.ReadLine()?.Trim().ToUpper() ?? throw new Exception();
+            if (!string.IsNullOrWhiteSpace(dairyFreeResponse))
             {
-                recipeToUpdate.Instructions.RemoveAt(instructionNumber - 1);
-                Console.WriteLine("Instruction removed.");
+                if (dairyFreeResponse == "Y")
+                {
+                    recipeToUpdate.IsDairyFree = true;
+                }
+                else if (dairyFreeResponse == "N")
+                {
+                    recipeToUpdate.IsDairyFree = false;
+                }
+            }
+
+            Console.WriteLine($"- Current vegan status: {(recipeToUpdate.IsVegan.HasValue ? (recipeToUpdate.IsVegan.Value ? "Yes" : "No") : "Not specified")}");
+            Console.Write("Is the recipe vegan? (Y/N) or press Enter to skip: ");
+            string veganResponse = Console.ReadLine()?.Trim().ToUpper() ?? throw new Exception();
+            if (!string.IsNullOrWhiteSpace(veganResponse))
+            {
+                if (veganResponse == "Y")
+                {
+                    recipeToUpdate.IsVegan = true;
+                }
+                else if (veganResponse == "N")
+                {
+                    recipeToUpdate.IsVegan = false;
+                }
             }
 
             // Saving the updated recipe
@@ -447,14 +532,12 @@ class Program
             {
                 Console.WriteLine("Are you sure you want to update this recipe? (Y/N)");
                 string recipeUpdateConfirmation = Console.ReadLine()?.Trim().ToUpper() ?? throw new Exception();
-                
 
                 if (recipeUpdateConfirmation == "Y")
                 {
                     recipeService.UpdateRecipe(recipeToUpdate.Id, recipeToUpdate);
                     Console.WriteLine("Recipe updated successfully.");
                     break;
-
                 }
                 else if (recipeUpdateConfirmation == "N")
                 {
@@ -465,7 +548,7 @@ class Program
                 {
                     Console.WriteLine("Invalid answer, please answer Y or N");
                 }
-            }           
+            }
         }
 
         static int RemoveRecipeByUser(RecipeService recipeService)
