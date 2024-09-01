@@ -67,7 +67,6 @@ class Program
 
                         if (recipeById != null)
                         {
-
                             Console.WriteLine();
                             Console.WriteLine(">>>Recipe ID and Name<<<");
                             Console.WriteLine($"ID: {recipeById.Id}. Recipe: {recipeById.Name}.");
@@ -77,17 +76,19 @@ class Program
                             Console.WriteLine();
                             Console.WriteLine(">>>Ingredients<<<");
 
-                            foreach (var ingredient in recipeById.Ingredients ?? throw new Exception())
+                            for (int i = 0; i < recipeById.Ingredients.Count; i++)
                             {
-                                Console.WriteLine($"{ingredient}");
+                                string ingredient = RemoveLeadingNumber(recipeById.Ingredients[i]);
+                                Console.WriteLine($"{i + 1}. {ingredient}");
                             }
 
                             Console.WriteLine();
                             Console.WriteLine(">>>Instructions<<<");
 
-                            foreach (var instruction in recipeById.Instructions ?? throw new Exception())
+                            for (int i = 0; i < recipeById.Instructions.Count; i++)
                             {
-                                Console.WriteLine($"{instruction}");
+                                string instruction = RemoveLeadingNumber(recipeById.Instructions[i]);
+                                Console.WriteLine($"{i + 1}. {instruction}");
                             }
                             Console.WriteLine();
                             Console.WriteLine(">>>Nutrition Information<<<");
@@ -100,14 +101,13 @@ class Program
                             Console.WriteLine("Recipe not found.");
                         }
                     }
-
                     catch (Exception ex)
-
                     {
                         Console.WriteLine($"An error occurred: {ex.Message}");
                         Console.WriteLine("Recipe not found or there was an issue retrieving it.");
                     }
                     break;
+
 
                 case "3":
 
@@ -404,9 +404,12 @@ class Program
             while (true)
             {
                 Console.WriteLine("Current Ingredients:");
-                foreach (var ingredient in recipeToUpdate.Ingredients ?? throw new Exception())
+                for (int i = 0; i < recipeToUpdate.Ingredients.Count; i++)
                 {
-                    Console.WriteLine(ingredient);
+                    // Remove previous numbering if exists, then reapply numbering
+                    string ingredient = recipeToUpdate.Ingredients[i];
+                    ingredient = RemoveLeadingNumber(ingredient);
+                    Console.WriteLine($"{i + 1}. {ingredient}");
                 }
 
                 Console.WriteLine("Type 'add' to add a new ingredient, the number to delete an ingredient, or 'done' to move to the next section.");
@@ -417,14 +420,10 @@ class Program
                     string newIngredient = Console.ReadLine() ?? throw new Exception();
                     if (!string.IsNullOrWhiteSpace(newIngredient))
                     {
-
-                        int newIngredientNumber = recipeToUpdate.Ingredients.Count + 1;
-
-                        recipeToUpdate.Ingredients.Add($"{newIngredientNumber}. {newIngredient}");
+                        recipeToUpdate.Ingredients.Add(newIngredient);
                         Console.WriteLine("Ingredient added.");
                     }
                 }
-
                 else if (ingredientResponse == "done")
                 {
                     break;
@@ -444,10 +443,12 @@ class Program
             while (true)
             {
                 Console.WriteLine("Current Instructions:");
-                foreach (var instruction  in recipeToUpdate.Instructions ?? throw new Exception())
+                for (int i = 0; i < recipeToUpdate.Instructions.Count; i++)
                 {
-                    Console.WriteLine(instruction);
-
+                    // Remove previous numbering if exists, then reapply numbering
+                    string instruction = recipeToUpdate.Instructions[i];
+                    instruction = RemoveLeadingNumber(instruction);
+                    Console.WriteLine($"{i + 1}. {instruction}");
                 }
 
                 Console.WriteLine("Type 'add' to add a new instruction, the number to delete an instruction, or 'done' to move to the next section.");
@@ -458,10 +459,7 @@ class Program
                     string newInstruction = Console.ReadLine() ?? throw new Exception();
                     if (!string.IsNullOrWhiteSpace(newInstruction))
                     {
-
-                        int newInstructionNumber = recipeToUpdate.Instructions.Count + 1;
-
-                        recipeToUpdate.Instructions.Add($"{newInstructionNumber}. {newInstruction}");
+                        recipeToUpdate.Instructions.Add(newInstruction);
                         Console.WriteLine("Instruction added.");
                     }
                 }
@@ -549,6 +547,17 @@ class Program
                     Console.WriteLine("Invalid answer, please answer Y or N");
                 }
             }
+        }
+
+        // Utility method to remove leading number and period
+        static string RemoveLeadingNumber(string input)
+        {
+            int firstPeriodIndex = input.IndexOf(".");
+            if (firstPeriodIndex > 0)
+            {
+                return input.Substring(firstPeriodIndex + 2);
+            }
+            return input;
         }
 
         static int RemoveRecipeByUser(RecipeService recipeService)
