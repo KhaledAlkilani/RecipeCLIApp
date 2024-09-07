@@ -206,5 +206,12 @@ namespace RecipeCLIApp.Repositories
             });
         }
 
+        public bool RecipeExists(string name)
+        {
+            return GetAllRecipes()
+                .Any(r => (r.Name ?? string.Empty).Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+
+
     }
 }

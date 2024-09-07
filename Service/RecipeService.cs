@@ -18,39 +18,42 @@ namespace RecipeCLIApp.Service
             _recipeRepository.EnsureRecipesTableExists();
         }
 
-        public void AddRecipe(Recipe recipe)
+        public bool AddRecipe(Recipe recipe)
         {
             if (recipe == null)
             {
-                throw new ArgumentNullException(nameof(recipe), "Provided recipe is null.");
+                return false;
             }
 
-            try
+            var existingRecipe = _recipeRepository.RecipeExists(recipe.Name ?? "UNKNOWN");
+
+            if (existingRecipe)
             {
-               _recipeRepository.AddRecipe(recipe);
-           
+                Console.WriteLine("A recipe with the same name already exist.");
+                return false;
             }
-            catch (PostgresException ex) when (ex.SqlState == "23505")
-            {
-                Console.WriteLine("A recipe with the same name and category already exists.");
-            }
+
+            _recipeRepository.AddRecipe(recipe);
+            return true;
         }
 
-        public void UpdateRecipe(int recipeId, Recipe updatedRecipe)
+        public bool UpdateRecipe(int recipeId, Recipe updatedRecipe)
         {
             if (updatedRecipe == null)
             {
-                throw new ArgumentNullException(nameof(updatedRecipe), "Updated recipe is null.");
+                return false;
             }
 
             var existingRecipe = _recipeRepository.GetRecipeById(recipeId);
             if (existingRecipe == null)
             {
-                throw new Exception("Recipe not found.");
+                Console.WriteLine("Recipe not found.");
+                return false;
             }
 
             updatedRecipe.Id = recipeId;
             _recipeRepository.UpdateRecipe(updatedRecipe);
+            return true;
         }
 
         public List<Recipe> GetAllRecipes()

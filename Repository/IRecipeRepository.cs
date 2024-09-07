@@ -18,5 +18,6 @@ namespace RecipeCLIApp.Repository
         public Recipe? GetRecipeById(int id);
         public List<Recipe> GetAllRecipes();
         public List<Recipe> SearchRecipes(string criteria);
+        public bool RecipeExists(string name);
     }
 }

@@ -6,6 +6,7 @@ using RecipeCLIApp.Service;
 
 class Program
 {
+    private enum UserOption { GetAllRecipes = 1, GetRecipeById, AddRecipe, UpdateRecipe, RemoveRecipe, SearchRecipe }
     static void Main(string[] args)
     {
 
@@ -37,13 +38,16 @@ class Program
             Console.WriteLine("6: Search a recipe by name or category.");
             Console.WriteLine();
             Console.Write("Type the option number here: ");
-            var option = Console.ReadLine();
-            Console.Write($"Selected Option: {option}\n");
+
+            if (Enum.TryParse<UserOption>(Console.ReadLine(), out var selectedOption))
+            {
+
+            Console.Write($"Selected Option: {selectedOption}\n");
             Console.WriteLine();
 
-            switch (option)
+            switch (selectedOption)
             {
-                case "1":
+                case UserOption.GetAllRecipes:
                     var recipes = recipeService.GetAllRecipes();
                     Console.WriteLine(">>>Available Recipes<<<");
                     foreach (var recipe in recipes)
@@ -52,7 +56,7 @@ class Program
                     }
                     break;
 
-                case "2":
+                case UserOption.GetRecipeById:
                     Console.Write("Enter Recipe ID: ");
 
                     if (!int.TryParse(Console.ReadLine(), out int recipeIdToBeGotten))
@@ -109,16 +113,23 @@ class Program
                     break;
 
 
-                case "3":
+                case UserOption.AddRecipe:
 
                     Recipe newRecipe = GetRecipeFromUser();
                     if (newRecipe != null)
                     {
                         try
                         {
-                            recipeService.AddRecipe(newRecipe);
-                            Console.WriteLine("Recipe added successfully!");
-                        }
+                            bool isAdded = recipeService.AddRecipe(newRecipe);
+                                if (isAdded)
+                                {
+                                    Console.WriteLine("Recipe added successfully!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Failed to add the recipe. It may already exist.");
+                                }
+                            }
 
                         catch (Exception ex)
                         {
@@ -131,12 +142,12 @@ class Program
                     }
                     break;
 
-                case "4":
+                case UserOption.UpdateRecipe:
 
                     UpdateRecipe(recipeService);
                     break;
 
-                case "5":
+                case UserOption.RemoveRecipe:
 
                     int recipeIdToRemove = RemoveRecipeByUser(recipeService);
 
@@ -156,7 +167,7 @@ class Program
 
                     break;
 
-                case "6":
+                case UserOption.SearchRecipe:
 
                     var criteria = GetSearchCriteria();
 
@@ -188,6 +199,7 @@ class Program
                     Console.WriteLine("Invalid option. Please choose again.");
                     break;
             }
+        }
 
             Console.WriteLine();
 
