@@ -50,7 +50,7 @@ CONNECTION_STRING_DOCKER=Host=db;Port=5432;Database=your_postgres_db;Username=yo
 Ensure docker desktop application is open.
 To pull the pre-built Docker image of the app from Docker Hub:
 
-docker push khaled963/recipecliapp:latest
+docker pull khaled963/recipecliapp:latest
 
 6. Build and Run Docker Containers
 Open a command line in the project directory and use the following commands to build and run the Docker containers:
