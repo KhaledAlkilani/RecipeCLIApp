@@ -14,9 +14,9 @@ namespace RecipeCLIApp.Repositories
             _connectionString = connectionString;
         }
 
-        public void EnsureRecipesTableExists()
+        public bool EnsureRecipesTableExists()
         {
-            ExecuteNonQuery(cmd =>
+           return ExecuteNonQuery(cmd =>
             {
                 cmd.CommandText = @"
                     CREATE TABLE IF NOT EXISTS recipes (
@@ -34,15 +34,27 @@ namespace RecipeCLIApp.Repositories
             });
         }
 
-        private void ExecuteNonQuery(Action<NpgsqlCommand> commandAction)
+        private bool ExecuteNonQuery(Action<NpgsqlCommand> commandAction)
         {
-            using (var conn = new NpgsqlConnection(_connectionString))
+            try
             {
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
+
+                using (var conn = new NpgsqlConnection(_connectionString))
+
                 {
-                    commandAction(cmd);
+
+                    conn.Open();
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        commandAction(cmd);
+                        return true;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return false;
             }
         }
 
@@ -58,11 +70,13 @@ namespace RecipeCLIApp.Repositories
             }
         }
 
-        public int AddRecipe(Recipe recipe)
+        public bool AddRecipe(Recipe recipe)
         {
             if (recipe == null) throw new ArgumentNullException(nameof(recipe));
 
-            return ExecuteQuery(cmd =>
+            try
+            {
+                int insertedId = ExecuteQuery(cmd =>
                 {
                     cmd.CommandText = @"
                         INSERT INTO recipes (name, category, ingredients, instructions, is_gluten_free, is_dairy_free, is_vegan) 
@@ -77,15 +91,36 @@ namespace RecipeCLIApp.Repositories
                     cmd.Parameters.AddWithValue("is_dairy_free", recipe.IsDairyFree.HasValue ? (object)recipe.IsDairyFree : DBNull.Value);
                     cmd.Parameters.AddWithValue("is_vegan", recipe.IsVegan.HasValue ? (object)recipe.IsVegan : DBNull.Value);
 
-                    object result = cmd.ExecuteScalar();
+                    object result = cmd.ExecuteScalar() ?? throw new Exception();
                     return result != null && result != DBNull.Value ? (int)result : 0;
-
                 });
+
+                if (insertedId > 0)
+                {
+                    Console.WriteLine($"Recipe added successfully with ID: {insertedId}");
+                    return true;
+
+                }
+                else
+
+                {
+                    Console.WriteLine("Failed to add recipe");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while adding the recipe: {ex.Message}");
+                return false;
+            }
+
         }
 
-        public void UpdateRecipe(Recipe updatedRecipe)
+        public bool UpdateRecipe(Recipe updatedRecipe)
         {
-            ExecuteNonQuery(cmd =>
+            try
+            {
+                ExecuteNonQuery(cmd =>
             {
                 cmd.CommandText = @"
             UPDATE recipes
@@ -104,16 +139,37 @@ namespace RecipeCLIApp.Repositories
 
                 cmd.ExecuteNonQuery();
             });
+                return true;
+
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating recipe: {ex.Message}");
+                return false;
+            }
         }
 
-        public void DeleteRecipeById(int id)
+        public bool DeleteRecipeById(int id)
         {
-            ExecuteNonQuery(cmd =>
+            try
             {
-                cmd.CommandText = "DELETE FROM recipes WHERE id = @id";
-                cmd.Parameters.AddWithValue("id", id);
-                cmd.ExecuteNonQuery();
-            });
+                ExecuteNonQuery(cmd =>
+                {
+                    cmd.CommandText = "DELETE FROM recipes WHERE id = @id";
+                    cmd.Parameters.AddWithValue("id", id);
+                    cmd.ExecuteNonQuery();
+                });
+
+                return true;
+
+            } 
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting recipe with ID {id}: {ex.Message}");
+                return false;
+            }
+          
         }
 
         public Recipe? GetRecipeById(int id)

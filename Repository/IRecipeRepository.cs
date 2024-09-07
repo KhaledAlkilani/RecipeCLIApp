@@ -11,10 +11,10 @@ namespace RecipeCLIApp.Repository
 {
     public interface IRecipeRepository
     {
-        public void EnsureRecipesTableExists();
-        public int AddRecipe(Recipe recipe);
-        public void UpdateRecipe(Recipe recipe);
-        public void DeleteRecipeById(int id);
+        public bool EnsureRecipesTableExists();
+        public bool AddRecipe(Recipe recipe);
+        public bool UpdateRecipe(Recipe recipe);
+        public bool DeleteRecipeById(int id);
         public Recipe? GetRecipeById(int id);
         public List<Recipe> GetAllRecipes();
         public List<Recipe> SearchRecipes(string criteria);
