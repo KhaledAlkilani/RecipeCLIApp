@@ -31,19 +31,21 @@ class Program
             Console.WriteLine();
             Console.WriteLine("Choose an option by entering the option number:\n");
             Console.WriteLine("1: List all recipes.");
-            Console.WriteLine("2: Get a recipe by its ID.");
+            Console.WriteLine("2: Get a recipe by ID.");
             Console.WriteLine("3: Add a recipe.");
             Console.WriteLine("4: Update a recipe.");
-            Console.WriteLine("5: Remove a recipe by entering the recipe ID.");
+            Console.WriteLine("5: Remove a recipe by ID.");
             Console.WriteLine("6: Search a recipe by name or category.");
             Console.WriteLine();
             Console.Write("Type the option number here: ");
+            var input = Console.ReadLine();
 
-            if (Enum.TryParse<UserOption>(Console.ReadLine(), out var selectedOption))
+            if (int.TryParse(input, out int optionNumber) && Enum.IsDefined(typeof(UserOption), optionNumber))
             {
 
-            Console.Write($"Selected Option: {selectedOption}\n");
-            Console.WriteLine();
+                UserOption selectedOption = (UserOption)optionNumber;
+                Console.Write($"Selected Option: {optionNumber}, {selectedOption}\n");
+                Console.WriteLine();
 
             switch (selectedOption)
             {
